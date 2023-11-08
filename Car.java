@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Car {
 
-    public int nrDoors;
+    private int nrDoors;
     public double enginePower;
     public double currentSpeed;
     private Color color;
