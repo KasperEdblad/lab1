@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Car implements Movable{
+abstract public class Car implements Movable{
 
     private double posX;
     private double posY;

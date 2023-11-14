@@ -1,13 +1,17 @@
 import java.awt.*;
 
-public class Volvo240 extends Car{
+public class Scania extends Car{
 
     private final static double trimFactor = 1.25;
+    private static int bedAngel = 0;
 
+    public Scania(){
+        super(200,200,0, 2, 500, Color.blue,"Scania" );
+    }
 
-    public Volvo240(){
-        super(150,150, 0, 4,100, Color.black, "Volvo240");
-
+    public void startEngine(){
+        assert(bedAngel == 0);
+        currentSpeed = 0.1;
     }
 
     public double speedFactor(){
@@ -35,5 +39,17 @@ public class Volvo240 extends Car{
         assert(speedBeforeBrake > getCurrentSpeed());
     }
 
+    public int getBedAngel(){
+        return bedAngel;
+    }
 
+    public void increaseBedAngel(){
+        assert(currentSpeed == 0);
+        bedAngel += 1;
+    }
+
+    public void decreaseBedAngel(){
+        assert(currentSpeed == 0);
+        bedAngel -= 1;
+    }
 }
