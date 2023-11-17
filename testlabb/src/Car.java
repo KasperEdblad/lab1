@@ -28,8 +28,13 @@ abstract public class Car implements Movable{
     public double getPosY(){
         return posY;
     }
+    public void setPosX(double pos){posX = pos;}
+    public void setPosY(double pos){posY = pos;}
     public int getDirection(){
         return direction;
+    }
+    public void setDirection(int newDirection){
+        direction = newDirection;
     }
     public int getNrDoors(){
         return nrDoors;

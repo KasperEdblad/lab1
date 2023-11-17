@@ -2,7 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class TestScania {
+public class testScania {
 
     private Scania scania;
 
@@ -13,9 +13,9 @@ public class TestScania {
     }
 
     @Test
-    public void testIncreaseBedAngel(){
+    public void testIncreaseFlatBedAngel(){
         scania.stopEngine();
-        scania.increaseBedAngel();
-        assert(scania.getBedAngel() == 1);
+        scania.raiseFlatbed();
+        assert(scania.getFlatbedAngle() == 1);
     }
 }
