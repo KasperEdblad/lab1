@@ -59,15 +59,23 @@ abstract public class Car implements Movable{
     }
 
     public void move(){
-        assert(currentSpeed > 0 && currentSpeed < enginePower);
-        if(direction == 0){
-            posX += currentSpeed;
-        }else if(direction == 1){
-            posY += currentSpeed;
-        }else if(direction == 2){
-            posX -= currentSpeed;
-        }else if(direction == 3) {
-            posY -= currentSpeed;
+        if(currentSpeed <= 0){
+            currentSpeed = 0;
+        } else {
+
+            if (currentSpeed > enginePower){
+                currentSpeed = enginePower;
+            }
+
+            if (direction == 0) {
+                posX += currentSpeed;
+            } else if (direction == 1) {
+                posY += currentSpeed;
+            } else if (direction == 2) {
+                posX -= currentSpeed;
+            } else if (direction == 3) {
+                posY -= currentSpeed;
+            }
         }
     }
     public void turnLeft(){
@@ -85,6 +93,39 @@ abstract public class Car implements Movable{
         else{
             direction += 1;
         }
+    }
+
+    abstract public double speedFactor();
+
+    private void incrementSpeed(double amount){
+        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,getEnginePower());
+    }
+
+    private void decrementSpeed(double amount){
+        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+    }
+
+    public void gas(double amount) {
+        double speedBeforeGas = getCurrentSpeed();
+        if(amount > 0 && amount < 1){
+            incrementSpeed(amount);
+
+            if(speedBeforeGas > getCurrentSpeed()){
+                currentSpeed = speedBeforeGas;
+            }
+        }
+    }
+
+    public void brake(double amount){
+        double speedBeforeBrake = getCurrentSpeed();
+        if(amount > 0 && amount < 1){
+            decrementSpeed(amount);
+
+            if(speedBeforeBrake < getCurrentSpeed()){
+                currentSpeed = speedBeforeBrake;
+            }
+        }
+
     }
 
 }

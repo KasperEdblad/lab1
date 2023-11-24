@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Garage<T extends Car>{
     private final int garageSize;
-    private int posX;
-    private int posY;
+    private final int posX;
+    private final int posY;
 
     ArrayList<T> carsInGarage = new ArrayList<T>();
 

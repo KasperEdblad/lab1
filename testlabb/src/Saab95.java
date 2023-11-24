@@ -23,30 +23,4 @@ public class Saab95 extends Car{
         return getEnginePower() * 0.01 * turbo;
     }
 
-
-    public void incrementSpeed(double amount){
-        currentSpeed = getCurrentSpeed() + speedFactor() * amount;
-    }
-
-    public void decrementSpeed(double amount){
-        currentSpeed = getCurrentSpeed() - speedFactor() * amount;
-    }
-
-    // TODO fix this method according to lab pm
-    public void gas(double amount) {
-        assert(amount > 0 && amount < 1 );
-        double speedBeforeGas = getCurrentSpeed();
-        incrementSpeed(amount);
-        assert(speedBeforeGas < getCurrentSpeed());
-    }
-
-    // TODO fix this method according to lab pm
-    public void brake(double amount){
-        assert(amount > 0 && amount < 1 );
-        double speedBeforeBrake = getCurrentSpeed();
-        decrementSpeed(amount);
-        assert(speedBeforeBrake > getCurrentSpeed());
-
-    }
-
 }

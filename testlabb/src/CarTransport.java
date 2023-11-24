@@ -4,8 +4,8 @@ import java.util.ArrayList;
 public class CarTransport extends Truck{
 
     private boolean isRampUp;
-    public ArrayList<Car> carsOnRamp = new ArrayList<Car>();
-    public final int rampSize;
+    private ArrayList<Car> carsOnRamp = new ArrayList<Car>();
+    private final int rampSize;
 
     public CarTransport() {
         super(300, 300, 0, 2, 200, Color.yellow, "CarTransport", 0);
@@ -35,6 +35,10 @@ public class CarTransport extends Truck{
 
     public boolean getIsRampUp() {
         return isRampUp;
+    }
+
+    public ArrayList getCarsOnRamp(){
+        return carsOnRamp;
     }
 
     public void raiseRamp(){
