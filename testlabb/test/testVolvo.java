@@ -22,6 +22,7 @@ public class testVolvo {
     public void testGas(){
         volvo.gas(0.5);
         System.out.println(volvo.getCurrentSpeed());
+        assert(volvo.getCurrentSpeed() == 0.725);
         //assert(volvo.getCurrentSpeed() == 0.1);
     }
 

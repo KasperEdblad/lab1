@@ -29,6 +29,7 @@ public class testSaab95{
         assert(saab.speedFactor() == 1.25);
         saab.setTurboOn();
         assert(saab.speedFactor() == 1.625);
+
     }
 
     @Test

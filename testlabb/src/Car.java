@@ -2,8 +2,8 @@ import java.awt.*;
 
 abstract public class Car implements Movable{
 
-    private double posX;
-    private double posY;
+    private static double posX;
+    private static double posY;
     private int direction;
     private final int nrDoors;
     private final double enginePower;
@@ -62,7 +62,6 @@ abstract public class Car implements Movable{
         if(currentSpeed <= 0){
             currentSpeed = 0;
         } else {
-
             if (currentSpeed > enginePower){
                 currentSpeed = enginePower;
             }
@@ -107,7 +106,7 @@ abstract public class Car implements Movable{
 
     public void gas(double amount) {
         double speedBeforeGas = getCurrentSpeed();
-        if(amount > 0 && amount < 1){
+        if(amount > 0 && amount <= 1 && currentSpeed > 0){
             incrementSpeed(amount);
 
             if(speedBeforeGas > getCurrentSpeed()){
@@ -118,7 +117,7 @@ abstract public class Car implements Movable{
 
     public void brake(double amount){
         double speedBeforeBrake = getCurrentSpeed();
-        if(amount > 0 && amount < 1){
+        if(amount > 0 && amount <= 1){
             decrementSpeed(amount);
 
             if(speedBeforeBrake < getCurrentSpeed()){
@@ -129,4 +128,3 @@ abstract public class Car implements Movable{
     }
 
 }
-

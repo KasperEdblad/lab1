@@ -18,4 +18,13 @@ public class testScania {
         scania.raiseFlatbed();
         assert(scania.getFlatbedAngle() == 1);
     }
+
+    @Test
+    public void testPosAfterFlatbed(){
+        scania.stopEngine();
+        scania.raiseFlatbed();
+        scania.startEngine();
+        scania.move();
+        assert(scania.getPosX() == 0);
+    }
 }
