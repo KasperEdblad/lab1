@@ -1,9 +1,10 @@
 import java.awt.*;
+import java.util.ArrayList;
 
-abstract public class Car implements Movable{
+abstract class Car implements Movable {
 
-    private static double posX;
-    private static double posY;
+    private double posX;
+    private double posY;
     private int direction;
     private final int nrDoors;
     private final double enginePower;
@@ -11,58 +12,74 @@ abstract public class Car implements Movable{
     private Color color;
     private final String modelName;
 
-    public Car(double posX, double posY, int direction, int nrDoors, double enginePower, Color color, String modelName){
+    public Car(double posX, double posY, int direction, int nrDoors, double enginePower, Color color, String modelName) {
         this.posX = posX;
         this.posY = posY;
         this.direction = direction;
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
-        this.setColor(color);
+        setColor(color);
         this.modelName = modelName;
         stopEngine();
     }
 
-    public double getPosX(){
+    public double getPosX() {
         return posX;
     }
-    public double getPosY(){
+
+    public double getPosY() {
         return posY;
     }
-    public void setPosX(double pos){posX = pos;}
-    public void setPosY(double pos){posY = pos;}
-    public int getDirection(){
+
+    public void setPosX(double pos) {
+        posX = pos;
+    }
+
+    public void setPosY(double pos) {
+        posY = pos;
+    }
+
+    public int getDirection() {
         return direction;
     }
-    public void setDirection(int newDirection){
+
+    public void setDirection(int newDirection) {
         direction = newDirection;
     }
-    public int getNrDoors(){
+
+    public int getNrDoors() {
         return nrDoors;
     }
-    public double getEnginePower(){
+
+    public double getEnginePower() {
         return enginePower;
     }
-    public double getCurrentSpeed(){
+
+    public double getCurrentSpeed() {
         return currentSpeed;
     }
-    public Color getColor(){
+
+    public Color getColor() {
         return color;
     }
-    public void setColor(Color clr){
+
+    public void setColor(Color clr) {
         color = clr;
     }
-    public void startEngine(){
+
+    public void startEngine() {
         currentSpeed = 0.1;
     }
-    public void stopEngine(){
+
+    public void stopEngine() {
         currentSpeed = 0;
     }
 
-    public void move(){
-        if(currentSpeed <= 0){
+    public void move() {
+        if (currentSpeed <= 0) {
             currentSpeed = 0;
         } else {
-            if (currentSpeed > enginePower){
+            if (currentSpeed > enginePower) {
                 currentSpeed = enginePower;
             }
 
@@ -77,54 +94,52 @@ abstract public class Car implements Movable{
             }
         }
     }
-    public void turnLeft(){
-        if(direction == 0){
+
+    public void turnLeft() {
+        if (direction == 0) {
             direction = 3;
-        }
-        else{
+        } else {
             direction -= 1;
         }
     }
-    public void turnRight(){
-        if(direction == 3){
+
+    public void turnRight() {
+        if (direction == 3) {
             direction = 0;
-        }
-        else{
+        } else {
             direction += 1;
         }
     }
 
     abstract public double speedFactor();
 
-    private void incrementSpeed(double amount){
-        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,getEnginePower());
+    private void incrementSpeed(double amount) {
+        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount, getEnginePower());
     }
 
-    private void decrementSpeed(double amount){
-        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+    private void decrementSpeed(double amount) {
+        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount, 0);
     }
 
     public void gas(double amount) {
         double speedBeforeGas = getCurrentSpeed();
-        if(amount > 0 && amount <= 1 && currentSpeed > 0){
+        if (amount > 0 && amount <= 1 && currentSpeed > 0) {
             incrementSpeed(amount);
 
-            if(speedBeforeGas > getCurrentSpeed()){
+            if (speedBeforeGas > getCurrentSpeed()) {
                 currentSpeed = speedBeforeGas;
             }
         }
     }
 
-    public void brake(double amount){
+    public void brake(double amount) {
         double speedBeforeBrake = getCurrentSpeed();
-        if(amount > 0 && amount <= 1){
+        if (amount > 0 && amount <= 1) {
             decrementSpeed(amount);
 
-            if(speedBeforeBrake < getCurrentSpeed()){
+            if (speedBeforeBrake < getCurrentSpeed()) {
                 currentSpeed = speedBeforeBrake;
             }
         }
-
     }
-
 }
