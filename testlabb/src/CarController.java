@@ -56,7 +56,6 @@ public class CarController {
                     frame.drawPanel.moveVolvo(carX, carY);
                     System.out.println("Volvo: " + thiscar.getCurrentSpeed());
                     System.out.println("Volvo: " + thiscar.getPosX());
-                    System.out.println("y" + thiscar.getPosY());
 
                 }
                 else if (thiscar instanceof Saab95) {
