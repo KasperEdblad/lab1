@@ -1,116 +1,145 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-/*
- * This class represents the Controller part in the MVC pattern.
- * It's responsibilities is to listen to the View and responds in a appropriate manner by
- * modifying the model state and the updating the view.
- */
-
 public class CarController {
-    // member fields:
-
-    // The delay (ms) corresponds to 20 updates a sec (hz)
     private final int delay = 50;
-    // The timer is started with an listener (see below) that executes the statements
-    // each step between delays.
-    private Timer timer = new Timer(delay, new TimerListener());
-
-    // The frame that represents this instance View of the MVC pattern
-    CarView frame;
-    // A list of cars, modify if needed
-    ArrayList<Car> cars = new ArrayList<>();
-
-    //methods:
+    private CarView frame;
+    public ArrayList<Vehicle> vehicles = new ArrayList<>();
 
     public static void main(String[] args) {
-        // Instance of this class
         CarController cc = new CarController();
-
-        cc.cars.add(new Volvo240());
-        cc.cars.add(new Saab95());
-        cc.cars.add(new Scania());
-
-        // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
-
-        // Start the timer
-        cc.timer.start();
+        cc.initVehicles();
+        cc.frame = new CarView("CarSim 1.0", cc.vehicles);
+        cc.frame.drawPanel.addVehicle(cc.vehicles.get(0));
+        cc.frame.drawPanel.addVehicle(cc.vehicles.get(1));
+        cc.frame.drawPanel.addVehicle(cc.vehicles.get(2));
+        cc.frame.timer.start();
     }
-
-    /* Each step the TimerListener moves all the cars in the list and tells the
-     * view to update its images. Change this method to your needs.
-     * */
-    private class TimerListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            for (Car thiscar : cars) {
-                thiscar.move();
-
-                int carX = (int) Math.round(thiscar.getPosX());
-                int carY = (int) Math.round(thiscar.getPosY());
-
-
-                if (thiscar instanceof Volvo240) {
-                    frame.drawPanel.moveVolvo(carX, carY);
-                    System.out.println("Volvo: " + thiscar.getCurrentSpeed());
-                    System.out.println("Volvo: " + thiscar.getPosX());
-
-                }
-                else if (thiscar instanceof Saab95) {
-
-                    frame.drawPanel.moveSaab(carX, carY);
-                    System.out.println("Saab: " + thiscar.getCurrentSpeed());
-                    System.out.println("Saab: " + thiscar.getPosX());
-                }
-
-
-                else if (thiscar instanceof Scania) {
-
-                    frame.drawPanel.moveScania(carX, carY);
-                    System.out.println("Scania: " + thiscar.getCurrentSpeed());
-                    System.out.println("Scania: " + thiscar.getPosX());
-                }
-
-
-                if(thiscar.getPosX() + 118 > frame.getX()){
-                    thiscar.setPosX(frame.getX() - 118);
-                    thiscar.stopEngine();
-                    thiscar.turnRight();
-                    thiscar.turnRight();
-                    thiscar.startEngine();
-                } else if (thiscar.getPosX() < 0) {
-                    thiscar.setPosX(0);
-                    thiscar.stopEngine();
-                    thiscar.turnRight();
-                    thiscar.turnRight();
-                    thiscar.startEngine();
-                }
-
-
+    private void initVehicles() {
+        vehicles.add(CarFactory.createVolvo240());
+        vehicles.add(CarFactory.createSaab95());
+        vehicles.add(CarFactory.createScania());
+    }
+    private void registerActionListeners() {
+        frame.gasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gas(frame.gasAmount);
             }
+        });
 
+        frame.brakeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                brake(frame.gasAmount);
+            }
+        });
 
+        frame.turboOnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Vehicle vehicle : vehicles) {
+                    if (vehicle instanceof Saab95) {
+                        ((Saab95) vehicle).setTurboOn();
+                    }
+                }
+            }
+        });
 
-            // repaint() calls the paintComponent method of the panel
-            frame.drawPanel.repaint();
-        }
+        frame.turboOffButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Vehicle vehicle : vehicles) {
+                    if (vehicle instanceof Saab95) {
+                        ((Saab95) vehicle).setTurboOff();
+                    }
+                }
+            }
+        });
+
+        frame.liftBedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Vehicle vehicle : vehicles) {
+                    if (vehicle instanceof Scania) {
+                        ((Scania) vehicle).raiseFlatbed();
+                    }
+                }
+            }
+        });
+
+        frame.lowerBedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Vehicle vehicle : vehicles) {
+                    if (vehicle instanceof Scania) {
+                        ((Scania) vehicle).lowerFlatbed();
+                    }
+                }
+            }
+        });
+
+        frame.startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Vehicle vehicle : vehicles) {
+                    vehicle.startEngine();
+                }
+            }
+        });
+
+        frame.stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Vehicle vehicle : vehicles) {
+                    vehicle.stopEngine();
+                }
+            }
+        });
+
+        frame.addCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (vehicles.size() < 10) {
+                    Vehicle newCar = CarFactory.createVolvo240();
+                    vehicles.add(newCar);
+                    frame.drawPanel.addVehicle(newCar);
+
+                    System.out.println("Added car!");
+                } else {
+                    System.out.println("Cannot add more cars. Garage is full.");
+                }
+            }
+        });
+
+        frame.removeCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!vehicles.isEmpty()) {
+                    Vehicle removedCar = vehicles.remove(vehicles.size() - 1);
+                    frame.drawPanel.removeVehicle(removedCar);
+                    System.out.println("Removed car!");
+                } else {
+                    System.out.println("No cars to remove. Garage is empty.");
+                }
+            }
+        });
     }
 
-
-    // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 10;
-        for (Car car : cars) {
-            car.gas(gas);
+        for (Vehicle vehicle : vehicles) {
+            vehicle.gas(gas);
         }
     }
 
     void brake(int amount) {
-        double brake = ((double) amount) / 100;
-        for (Car car : cars) {
-            car.brake(brake);
+        double brake = ((double) amount) / 10;
+        for (Vehicle vehicle : vehicles) {
+            vehicle.brake(brake);
         }
     }
 }
