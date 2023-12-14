@@ -1,12 +1,14 @@
 import java.awt.*;
-abstract public class Truck extends Car {
+
+abstract public class Truck extends Vehicle {
 
     private final static double trimFactor = 1.25;
     private int flatbedAngle;
 
-    public Truck(double posX, double posY, int direction, int nrDoors, double enginepower, Color color, String modelName, int flatbedAngle) {
+    public Truck(double posX,double posY, int direction, int nrDoors, double enginepower, Color color, String modelName, int flatbedAngle){
         super(posX, posY, direction, nrDoors, enginepower, color, modelName);
         this.flatbedAngle = flatbedAngle;
+
     }
 
     public void startEngine() {
@@ -47,5 +49,3 @@ abstract public class Truck extends Car {
     }
 
 }
-
-

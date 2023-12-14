@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CarTransport extends Truck{
+public class CarTransport extends Truck {
 
     private boolean isRampUp;
-    private ArrayList<Car> carsOnRamp = new ArrayList<Car>();
+    private ArrayList<Vehicle> carsOnRamp = new ArrayList<Vehicle>();
     private final int rampSize;
 
     public CarTransport() {
@@ -14,7 +14,7 @@ public class CarTransport extends Truck{
     }
 
 
-    public void loadCar(Car carToLoad){
+    public void loadCar(Vehicle carToLoad){
         assert(carsOnRamp.size() + 1 <= rampSize);
         assert(carToLoad.getClass() != CarTransport.class);
         assert(getPosX() - carToLoad.getPosX() < 30 && getPosX() - carToLoad.getPosX() > -30 &&
@@ -28,7 +28,7 @@ public class CarTransport extends Truck{
     public void unloadCar(){
         assert(!isRampUp);
         assert(!carsOnRamp.isEmpty());
-        Car unloadedCar = carsOnRamp.get(carsOnRamp.size() - 1);
+        Vehicle unloadedCar = carsOnRamp.get(carsOnRamp.size() - 1);
         unloadedCar.setPosX(getPosX() + 10);
         carsOnRamp.remove(carsOnRamp.size() - 1);
     }
@@ -64,7 +64,7 @@ public class CarTransport extends Truck{
         }else if(getDirection() == 3) {
             setPosY(getPosY() - currentSpeed);
         }
-        for (Car currentCar : carsOnRamp) {
+        for (Vehicle currentCar : carsOnRamp) {
             currentCar.currentSpeed = currentSpeed;
             currentCar.setPosX(getPosX());
             currentCar.setPosY(getPosY());
